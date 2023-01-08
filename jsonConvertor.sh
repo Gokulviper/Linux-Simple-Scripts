@@ -5,32 +5,19 @@ x=`echo $x | sed 's/}/\\n/g' `
 create_date="$(date +'%d/%m/%Y %T')" 
 echo "{\"created_date\":\"$create_date \",">AwsJsonFormat.json
 echo "\"prefixes\" : [" >>AwsJsonFormat.json
-# n_id=1
 n_city=1
-# n_place=1
 n_external_ip=1
 for ip in ${x[@]};
 do
-    # id=`echo $ip | sed 's/,/\\n/g' | grep "ID"|sed 's/\<ID\>//g'|tr -d ':""'`
+    
     city=`echo $ip | sed 's/,/\\n/g' | grep "City"|sed 's/\<City\>//g'|tr -d ':""'`
-    # place=`echo $ip | sed 's/,/\\n/g' | grep "Place"|sed 's/\<Place\>//g'|tr -d ':""'`
     external_ip=`echo $ip | sed 's/,/\\n/g' | grep "external_ip"|sed 's/\<external_ip\>//g'|tr -d ':""'`
     
-    # if [[ ! -z $id  &&   $n_id == 1 ]];then
-    
-    #     n_id=$id
-   
-    # fi
     if [[ ! -z $city &&  $n_city -eq 1 ]];then
     
         n_city=$city
     
     fi
-    # if [[ ! -z $place &&  $n_place -eq 1 ]];then
-   
-    #     n_place=$place
-    
-    # fi
     if [[ ! -z $external_ip &&   $n_external_ip == 1 ]];then
 
         alreadyCidr=0
@@ -56,9 +43,9 @@ do
         echo "\"network_border_group\":\"$n_city\"">>AwsJsonFormat.json
        
         echo "}," >>AwsJsonFormat.json
-        # n_id=1
+        
         n_city=1
-        # n_place=1
+
         n_external_ip=1
       
     else
